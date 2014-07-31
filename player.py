@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 	Class that defines the player
 	'''
 
-	zombie_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "zombie.jpg")
+	zombie_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "zombie.png")
 
 	def __init__(self, *groups):
 		'''
