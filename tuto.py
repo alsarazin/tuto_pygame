@@ -33,7 +33,7 @@ class Game(object):
 				if x in (0, width - 32) or y in (0, height - 32):
 					wall = pygame.sprite.Sprite(self.walls)
 					wall.image = block
-					wall.rect = pygame.rect.Rect((x, y), wall.image.get_size())
+					wall.rect = pygame.Rect((x, y), wall.image.get_size())
 		sprites.add(self.walls)
 
 		while True:
@@ -47,7 +47,7 @@ class Game(object):
 						return
 
 			sprites.update(dt / 1000., self)
-			screen.blit(background, (0, 0))
+			screen.blit(background, (-500, -500))
 			sprites.draw(screen)
 			pygame.display.flip()
 

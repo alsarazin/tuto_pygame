@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
 		'''
 		super(Player, self).__init__(*groups)
 		self.image = pygame.image.load(self.zombie_path)
-		self.rect = pygame.rect.Rect((320, 240), self.image.get_size())
+		self.rect = pygame.Rect((320, 240), self.image.get_size())
 
 	def update(self, dt, game):
 		last = self.rect.copy()
@@ -36,5 +36,14 @@ class Player(pygame.sprite.Sprite):
 		if key[pygame.K_RIGHT]:
 			self.rect.x += 300 * dt
 
-		for __cell in pygame.sprite.spritecollide(self, game.walls, False):
-			self.rect = last
+		new = self.rect
+		for cell in pygame.sprite.spritecollide(self, game.walls, False):
+			cell = cell.rect
+			if last.right <= cell.left and new.right > cell.left:
+				new.right = cell.left
+			if last.left >= cell.right and new.left < cell.right:
+				new.left = cell.right
+			if last.bottom <= cell.top and new.bottom > cell.top:
+				new.bottom = cell.top
+			if last.top >= cell.bottom and new.top < cell.bottom:
+				new.top = cell.bottom
