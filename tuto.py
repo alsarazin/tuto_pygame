@@ -1,44 +1,42 @@
+'''
+Created on 30 Jul 2014
+
+@author: alsarazin
+'''
 #!/usr/bin/python
 
-import pygame, os
+import pygame
+from player import Player
+
 
 class Game(object):
-	
+	'''
+	Class that defines the game in itself
+	'''
+
 	def main(self, screen):
 		clock = pygame.time.Clock()
-		
-                zombie_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "zombie.jpg")
 
-		zombie = pygame.image.load(zombie_path)
-		zombie_x, zombie_y = 320, 240		
-		
+		sprites = pygame.sprite.Group()
+		self.player = Player(sprites)
+
 		while True:
-			clock.tick(40)
-			
+			dt = clock.tick(40)  # amount of time in ms that passed since the last tick was called
+
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					return
-				elif event.type == pygame.KEYDOWN: 
+				elif event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						return
-			
-			key = pygame.key.get_pressed()
-			if key[pygame.K_UP]:
-				zombie_y -= 10
-			if key[pygame.K_DOWN]:
-				zombie_y += 10
-			if key[pygame.K_LEFT]:
-				zombie_x -= 10
-			if key[pygame.K_RIGHT]:
-				zombie_x += 10		
-			
-			screen.fill((255,255,255))
-			screen.blit(zombie,(zombie_x, zombie_y))
+
+			sprites.update(dt / 1000.)
+			screen.fill((255, 255, 255))
+			sprites.draw(screen)
 			pygame.display.flip()
- 
+
 
 if __name__ == '__main__':
 	pygame.init()
-	screen = pygame.display.set_mode((640,480))
+	screen = pygame.display.set_mode((640, 480))
 	Game().main(screen)
-
