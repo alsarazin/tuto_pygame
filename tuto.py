@@ -17,6 +17,8 @@ class Game(object):
 	def main(self, screen):
 		clock = pygame.time.Clock()
 
+		background = pygame.image.load("background.png")
+
 		sprites = pygame.sprite.Group()
 		self.player = Player(sprites)
 
@@ -31,7 +33,7 @@ class Game(object):
 						return
 
 			sprites.update(dt / 1000.)
-			screen.fill((255, 255, 255))
+			screen.blit(background, (0, 0))
 			sprites.draw(screen)
 			pygame.display.flip()
 
