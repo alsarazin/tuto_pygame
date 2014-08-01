@@ -47,3 +47,6 @@ class Player(pygame.sprite.Sprite):
 				new.bottom = cell.top
 			if last.top >= cell.bottom and new.top < cell.bottom:
 				new.top = cell.bottom
+
+		self.groups()[0].camera_x = self.rect.x - 320
+		self.groups()[0].camera_y = self.rect.y - 240

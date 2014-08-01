@@ -1,12 +1,17 @@
+#!/usr/bin/python
 '''
 Created on 30 Jul 2014
 
 @author: alsarazin
 '''
-#!/usr/bin/python
-
 import pygame
 from player import Player
+
+
+class ScrolledGroup(pygame.sprite.Group):
+	def draw(self, surface):
+		for sprite in self.sprites():
+			surface.blit(sprite.image, (sprite.rect.x - self.camera_x, sprite.rect.y - self.camera_y))
 
 
 class Game(object):
@@ -22,9 +27,13 @@ class Game(object):
 
 		background = pygame.image.load("background.png")
 
-		sprites = pygame.sprite.Group()
-		self.player = Player(sprites)
+		level_width, level_height = background.get_size()
 
+		sprites = ScrolledGroup()
+		sprites.camera_x = 0
+		sprites.camera_y = 0
+		self.player = Player(sprites)
+		
 		self.walls = pygame.sprite.Group()
 		block = pygame.image.load('block.png')
 
