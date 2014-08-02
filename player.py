@@ -16,9 +16,19 @@ class Player(pygame.sprite.Sprite):
 		Constructor
 		'''
 		super(Player, self).__init__(*groups)
-		self.image = pygame.image.load("zombie.png")
-		self.image = pygame.transform.scale(self.image, (80,80))
-		self.rect = pygame.Rect((320, 240), self.image.get_size())
+		# zombie image		
+		#self.image = pygame.image.load("zombie.png")
+		#self.image = pygame.transform.scale(self.image, (80,80))
+
+		self.anim_number = 1
+		self.animation = pygame.image.load("animation.png").convert_alpha()
+		# 
+		#self.image = pygame.Surface((145,210))
+		#self.image.blit(self.animation, (0, 0), (0, 0, 145, 210))
+		
+		self.image = self.animation.subsurface((0, 0, 145, 210))
+
+		self.rect = pygame.Rect((50, 200), self.image.get_size())
 
 	def update(self, dt, game):
 		last = self.rect.copy()
@@ -47,3 +57,7 @@ class Player(pygame.sprite.Sprite):
 
 		self.groups()[0].camera_x = self.rect.x - game.width/2
 		self.groups()[0].camera_y = self.rect.y - game.height/2
+
+		self.anim_number = self.anim_number % 7
+		self.anim_number += 1
+		self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))
