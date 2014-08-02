@@ -21,7 +21,7 @@ class Game(object):
 
 	def main(self, screen):
 
-		width, height = 640, 480
+		self.width, self.height = 640, 480
 
 		clock = pygame.time.Clock()
 
@@ -37,9 +37,9 @@ class Game(object):
 		self.walls = pygame.sprite.Group()
 		block = pygame.image.load('block.png')
 
-		for x in range(0, width+32*20, 32):
-			for y in range(0, height, 32):
-				if x in (0, width + 32*20 - 32) or y in (0, height - 32):
+		for x in range(0, self.width+32*20, 32):
+			for y in range(0, self.height, 32):
+				if x in (0, self.width + 32*20 - 32) or y in (0, self.height - 32):
 					wall = pygame.sprite.Sprite(self.walls)
 					wall.image = block
 					wall.rect = pygame.Rect((x, y), wall.image.get_size())
