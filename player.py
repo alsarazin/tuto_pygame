@@ -17,19 +17,9 @@ class Player(pygame.sprite.Sprite):
 		'''
 		super(Player, self).__init__(*groups)
 
-		# OLD BABY ZOMBIE IMAGE	
-		#self.image = pygame.image.load("zombie.png")
-		#self.image = pygame.transform.scale(self.image, (80,80))
-
-		self.anim_number = 0
+		self.anim_number = self.anim_inc = 0  # anim_inc needed to avoid changing the image at each update
 		self.animation = pygame.image.load("animation.png")
-
-		# TRANSPARENCY NOT SUPPORTED WITH THIS TECHNIQUE
-		#self.image = pygame.Surface((145,210))
-		#self.image.blit(self.animation, (0, 0), (0, 0, 145, 210))
-		
 		self.image = self.animation.subsurface((0, 0, 145, 210))
-
 		self.rect = pygame.Rect((50, 200), self.image.get_size())
 
 		self.walking = False
@@ -69,6 +59,12 @@ class Player(pygame.sprite.Sprite):
 		self.groups()[0].camera_y = self.rect.y - game.height/2
 
 		if self.walking:
-			self.anim_number = self.anim_number % 7
-			self.anim_number += 1
-			self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))
+			self.anim_inc += dt*15  # animation depends on time passed
+			self.anim_number = int(self.anim_inc) % 8  # there is 8 animation images
+			
+			self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))  # each image is 145x210
+
+			# needed to stop anim_inc from increasing too much
+			if self.anim_inc > 16:
+				self.anim_inc = 0
+			
