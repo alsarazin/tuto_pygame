@@ -16,13 +16,15 @@ class Player(pygame.sprite.Sprite):
 		Constructor
 		'''
 		super(Player, self).__init__(*groups)
-		# zombie image		
+
+		# OLD BABY ZOMBIE IMAGE	
 		#self.image = pygame.image.load("zombie.png")
 		#self.image = pygame.transform.scale(self.image, (80,80))
 
-		self.anim_number = 1
-		self.animation = pygame.image.load("animation.png").convert_alpha()
-		# 
+		self.anim_number = 0
+		self.animation = pygame.image.load("animation.png")
+
+		# TRANSPARENCY NOT SUPPORTED WITH THIS TECHNIQUE
 		#self.image = pygame.Surface((145,210))
 		#self.image.blit(self.animation, (0, 0), (0, 0, 145, 210))
 		
@@ -30,18 +32,26 @@ class Player(pygame.sprite.Sprite):
 
 		self.rect = pygame.Rect((50, 200), self.image.get_size())
 
+		self.walking = False
+
 	def update(self, dt, game):
 		last = self.rect.copy()
+
+		self.walking = False
 
 		key = pygame.key.get_pressed()
 		if key[pygame.K_UP]:
 			self.rect.y -= 300 * dt
+			self.walking = True
 		if key[pygame.K_DOWN]:
 			self.rect.y += 300 * dt
+			self.walking = True
 		if key[pygame.K_LEFT]:
 			self.rect.x -= 300 * dt
+			self.walking = True
 		if key[pygame.K_RIGHT]:
 			self.rect.x += 300 * dt
+			self.walking = True
 
 		new = self.rect
 		for cell in pygame.sprite.spritecollide(self, game.walls, False):
@@ -58,6 +68,7 @@ class Player(pygame.sprite.Sprite):
 		self.groups()[0].camera_x = self.rect.x - game.width/2
 		self.groups()[0].camera_y = self.rect.y - game.height/2
 
-		self.anim_number = self.anim_number % 7
-		self.anim_number += 1
-		self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))
+		if self.walking:
+			self.anim_number = self.anim_number % 7
+			self.anim_number += 1
+			self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))
