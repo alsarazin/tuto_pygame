@@ -37,9 +37,9 @@ class Game(object):
 		self.walls = pygame.sprite.Group()
 		block = pygame.image.load('block.png')
 
-		for x in range(0, width, 32):
+		for x in range(0, width+32*20, 32):
 			for y in range(0, height, 32):
-				if x in (0, width - 32) or y in (0, height - 32):
+				if x in (0, width + 32*20 - 32) or y in (0, height - 32):
 					wall = pygame.sprite.Sprite(self.walls)
 					wall.image = block
 					wall.rect = pygame.Rect((x, y), wall.image.get_size())
@@ -55,8 +55,9 @@ class Game(object):
 					if event.key == pygame.K_ESCAPE:
 						return
 
+			screen.fill((255,255,255))
 			sprites.update(dt / 1000., self)
-			screen.blit(background, (-500, -500))
+			screen.blit(background, (-416 - sprites.camera_x, -530 - sprites.camera_y))
 			sprites.draw(screen)
 			pygame.display.flip()
 

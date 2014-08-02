@@ -3,9 +3,7 @@ Created on 31 Jul 2014
 
 @author: alsarazin
 '''
-
 import pygame
-import os
 
 
 class Player(pygame.sprite.Sprite):
@@ -13,14 +11,13 @@ class Player(pygame.sprite.Sprite):
 	Class that defines the player
 	'''
 
-	zombie_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "zombie.png")
-
 	def __init__(self, *groups):
 		'''
 		Constructor
 		'''
 		super(Player, self).__init__(*groups)
-		self.image = pygame.image.load(self.zombie_path)
+		self.image = pygame.image.load("zombie.png")
+		self.image = pygame.transform.scale(self.image, (80,80))
 		self.rect = pygame.Rect((320, 240), self.image.get_size())
 
 	def update(self, dt, game):
