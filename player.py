@@ -60,11 +60,11 @@ class Player(pygame.sprite.Sprite):
 
 		if self.walking:
 			self.anim_inc += dt*15  # animation depends on time passed
-			self.anim_number = int(self.anim_inc) % 8  # there is 8 animation images
+			self.anim_number = int(self.anim_inc) % 7  # there is 8 animation images
 			
 			self.image = self.animation.subsurface((145*self.anim_number, 0, 145, 210))  # each image is 145x210
 
 			# needed to stop anim_inc from increasing too much
-			if self.anim_inc > 16:
+			if self.anim_inc > 15:
 				self.anim_inc = 0
 			
