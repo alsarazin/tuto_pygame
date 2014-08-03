@@ -24,18 +24,19 @@ class Player(pygame.sprite.Sprite):
 
 		self.walking = False
 
+		self.dy = 0
+		self.jumping = False
+
+
 	def update(self, dt, game):
 		last = self.rect.copy()
 
 		self.walking = False
 
 		key = pygame.key.get_pressed()
-		if key[pygame.K_UP]:
-			self.rect.y -= 300 * dt
-			self.walking = True
-		if key[pygame.K_DOWN]:
-			self.rect.y += 300 * dt
-			self.walking = True
+		if key[pygame.K_SPACE] and not self.jumping:
+			self.dy = -500
+			self.jumping = True
 		if key[pygame.K_LEFT]:
 			self.rect.x -= 300 * dt
 			self.walking = True
@@ -43,17 +44,24 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x += 300 * dt
 			self.walking = True
 
+		self.dy += 10
+		self.rect.y += min(400, self.dy)*dt
+
 		new = self.rect
 		for cell in pygame.sprite.spritecollide(self, game.walls, False):
 			cell = cell.rect
 			if last.right <= cell.left and new.right > cell.left:
 				new.right = cell.left
+				self.dy = 0
 			if last.left >= cell.right and new.left < cell.right:
 				new.left = cell.right
+				self.dy = 0
 			if last.bottom <= cell.top and new.bottom > cell.top:
 				new.bottom = cell.top
+				self.jumping = False
 			if last.top >= cell.bottom and new.top < cell.bottom:
 				new.top = cell.bottom
+				self.dy = 0
 
 		self.groups()[0].camera_x = self.rect.x - game.width/2
 		self.groups()[0].camera_y = self.rect.y - game.height/2
