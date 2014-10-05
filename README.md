@@ -1,4 +1,4 @@
-tuto_pygame
+Testing Pygame
 ===========
 
-Python script to play with the pygame library
+The start of a small game coded with the pygame library.
