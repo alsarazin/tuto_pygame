@@ -54,6 +54,8 @@ class Game(object):
 				elif event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						return
+					elif event.key == pygame.K_s:
+						rail.play()
 
 			screen.fill((255,255,255))
 			sprites.update(dt / 1000., self)
@@ -63,6 +65,16 @@ class Game(object):
 
 
 if __name__ == '__main__':
+	pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
 	pygame.init()
+	try:
+		#pygame.mixer.music.load(os.path.join('data', 'an-turr.ogg'))#load music
+		#jump = pygame.mixer.Sound(os.path.join('data','jump.wav'))  #load sound
+		#fail = pygame.mixer.Sound(os.path.join('data','fail.wav'))  #load sound
+		rail = pygame.mixer.Sound('raygun-01.wav')  #load sound
+	except:
+		print("could not load or play soundfiles in 'data' folder :-(")
+
 	screen = pygame.display.set_mode((640, 480))
 	Game().main(screen)
+
